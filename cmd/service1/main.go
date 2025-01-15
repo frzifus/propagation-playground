@@ -10,6 +10,7 @@ import (
 	sdklogging "github.com/openshift-online/ocm-sdk-go/logging"
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/baggage"
 
 	"github.com/frzifus/propagation-playground/internal/instr"
@@ -51,6 +52,8 @@ func main() {
 			b := baggage.FromContext(ctx)
 			bc := b.Member("correlationID").Value()
 			br := b.Member("requestID").Value()
+			span.SetAttributes(attribute.String("correlationID", bc))
+			span.SetAttributes(attribute.String("requestID", br))
 			r, err := http.NewRequestWithContext(ctx, http.MethodGet, "http://localhost:8080", nil)
 			if err != nil {
 				logger.Error(ctx, "could not creat request, correlationID: %s, requestID: %s, err: %v", bc, br, err)
@@ -65,7 +68,5 @@ func main() {
 			logger.Info(ctx, "status: %d, correlationID: %s, requestID: %s", resp.StatusCode, bc, br)
 		}(baggage.ContextWithBaggage(ctx, bag))
 		time.Sleep(500 * time.Millisecond)
-		return
 	}
-
 }

@@ -10,7 +10,7 @@ import (
 	"go.opentelemetry.io/otel/propagation"
 	tracesdk "go.opentelemetry.io/otel/sdk/trace"
 
-	semconv "go.opentelemetry.io/otel/semconv/v1.25.0"
+	// semconv "go.opentelemetry.io/otel/semconv/v1.25.0"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/sdk/resource"
@@ -26,8 +26,8 @@ func InstallOpenTelemetryTracer(ctx context.Context, logger sdklogging.Logger) (
 
 	resources, err := resource.New(context.Background(),
 		resource.WithAttributes(
-			semconv.ServiceNameKey.String("info.APPName"),
-			semconv.ServiceVersionKey.String("info.Version"),
+		// semconv.ServiceNameKey.String("info.APPName"),
+		// semconv.ServiceVersionKey.String("info.Version"),
 		),
 		resource.WithHost(),
 	)

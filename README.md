@@ -35,7 +35,20 @@ something went wrong, correlationID: 7f64af13-0208-486f-a162-108d406e675d, reque
 {"Name":"origin","SpanContext":{"TraceID":"bacdfe5f74ee2360575648818575566b","SpanID":"9b96920bd702bd38","TraceFlags":"01","TraceState":"","Remote":false},"Parent":{"TraceID":"00000000000000000000000000000000","SpanID":"0000000000000000","TraceFlags":"00","TraceState":"","Remote":false},"SpanKind":1,"StartTime":"2025-01-14T19:32:31.659402917+01:00","EndTime":"2025-01-14T19:32:33.966066381+01:00","Attributes":null,"Events":null,"Links":null,"Status":{"Code":"Unset","Description":""},"DroppedAttributes":0,"DroppedEvents":0,"DroppedLinks":0,"ChildSpanCount":1,"Resource":[{"Key":"host.name","Value":{"Type":"STRING","Value":"aqua"}},{"Key":"service.name","Value":{"Type":"STRING","Value":"info.APPName"}},{"Key":"service.version","Value":{"Type":"STRING","Value":"info.Version"}}],"InstrumentationScope":{"Name":"github.com/frzifus/propagation-playground/cmd/service1","Version":"","SchemaURL":"","Attributes":null},"InstrumentationLibrary":{"Name":"github.com/frzifus/propagation-playground/cmd/service1","Version":"","SchemaURL":"","Attributes":null}}
 ```
 
-### Root Span
+### Testing with Jaeger:
+
+Run all-in-one locally:
+```bash
+podman run --rm -it -p 127.0.0.1:4317:4317 -p 127.0.0.1:4318:4318 -p 127.0.0.1:16686:16686 -e COLLECTOR_OTLP_ENABLED=true -e LOG_LEVEL=debug  jaegertracing/all-in-one:latest
+```
+
+Export data:
+```
+OTEL_SERVICE_NAME=service2 OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 go run cmd/service2/main.go
+OTEL_SERVICE_NAME=service1 OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 go run cmd/service1/main.go
+```
+
+### Inspect Root Span
 
 ```json
 {
@@ -106,7 +119,7 @@ something went wrong, correlationID: 7f64af13-0208-486f-a162-108d406e675d, reque
 }
 ```
 
-### Next span
+### Inspect next span
 
 ```json
 {
