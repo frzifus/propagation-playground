@@ -15,7 +15,7 @@ import (
 	"go.opentelemetry.io/otel/baggage"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/frzifus/propagation-playground/internal/instr"
+	"github.com/frzifus/propagation-playground/pkg/instr"
 )
 
 var tracer trace.Tracer

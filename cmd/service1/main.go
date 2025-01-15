@@ -13,7 +13,7 @@ import (
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/baggage"
 
-	"github.com/frzifus/propagation-playground/internal/instr"
+	"github.com/frzifus/propagation-playground/pkg/instr"
 )
 
 func main() {
