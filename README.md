@@ -44,8 +44,8 @@ podman run --rm -it -p 127.0.0.1:4317:4317 -p 127.0.0.1:4318:4318 -p 127.0.0.1:1
 
 Export data:
 ```
-OTEL_SERVICE_NAME=service2 OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 go run cmd/service2/main.go
-OTEL_SERVICE_NAME=service1 OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 go run cmd/service1/main.go
+OTEL_SERVICE_NAME=service2 OTEL_TRACES_EXPORTER=otlp OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 go run cmd/service2/main.go
+OTEL_SERVICE_NAME=service1 OTEL_TRACES_EXPORTER=otlp OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 go run cmd/service1/main.go
 ```
 
 ### Inspect Root Span
